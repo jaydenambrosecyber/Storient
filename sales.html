@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Sales</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body>
+  <div class="navbar">
+    <div class="brand" onclick="location.href='home.html'"><img src="assets/img/logo.svg"><div class="title">STORIENT</div></div>
+    <div class="menu">
+      <a href="home.html">Home</a>
+      <a href="add.html">Add Item</a>
+      <a href="stock.html">Stock</a>
+      <a href="outofstock.html">Out of Stock</a>
+      <a href="sales.html">Sales</a>
+      <a href="index.html" style="margin-left:12px">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
+      <div class="revenue">
+        <div class="small">Total Revenue</div>
+        <div id="rev" style="font-size:28px;font-weight:800;margin-top:8px">₹0.00</div>
+      </div>
+      <div style="flex:1" class="form-card">
+        <h3>Record Sale</h3>
+        <select id="itemSel" class="input"></select>
+        <input id="sellQty" class="input" type="number" value="1" min="1">
+        <button class="btn" onclick="recordSale()">Record Sale</button>
+      </div>
+    </div>
+
+    <div style="margin-top:18px" class="form-card">
+      <h3>Sales Log</h3>
+      <table class="table" id="salesTable"><thead><tr><th>Item</th><th>Amount</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+<script src="assets/js/app.js"></script>
+<script>
+function populateItems(){
+  const sel = document.getElementById('itemSel');
+  const items = loadItems().filter(i=>Number(i.quantity)>0);
+  if (!items.length){ sel.innerHTML = '<option value="">No items</option>'; return; }
+  sel.innerHTML = items.map(i=>`<option value="${i.id}" data-price="${i.price}">${i.name} - ${i.quantity} in stock</option>`).join('');
+}
+function refreshSales(){
+  const sales = loadSales();
+  const tbody = document.querySelector('#salesTable tbody');
+  if (!sales.length) tbody.innerHTML = '<tr><td colspan=2 class="small">No sales yet</td></tr>'; else tbody.innerHTML = sales.map(s=>`<tr><td>${s.name}</td><td>${formatCurr(s.amount)}</td></tr>`).join('');
+  const total = sales.reduce((s,x)=>s + Number(x.amount||0), 0);
+  document.getElementById('rev').innerText = formatCurr(total);
+}
+function recordSale(){
+  const sel = document.getElementById('itemSel');
+  const id = sel.value;
+  const qty = parseInt(document.getElementById('sellQty').value)||0;
+  if (!id || qty<=0) return alert('select item and qty');
+  const items = loadItems();
+  const it = items.find(x=>String(x.id)===String(id));
+  if (!it) return alert('item not found');
+  if (Number(it.quantity) < qty) return alert('not enough stock');
+  it.quantity = Number(it.quantity) - qty;
+  saveItems(items);
+  let sales = loadSales();
+  sales.unshift({name: it.name, amount: Number(it.price)*qty});
+  saveSales(sales);
+  populateItems(); refreshSales();
+  if (it.quantity===0) location.href='outofstock.html';
+}
+document.addEventListener('DOMContentLoaded', ()=>{ populateItems(); refreshSales(); });
+</script>
+</body>
+</html>

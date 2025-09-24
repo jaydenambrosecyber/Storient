@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>STORIENT — Login</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="login-wrap">
+  <div class="login-card">
+    <div class="logo"><img src="assets/img/logo.svg" style="width:48px;height:48px;"></div>
+    <h2 style="margin-top:10px">Welcome to STORIENT</h2>
+    <p class="small">Smart inventory & sales manager</p>
+    <input id="u" class="input" placeholder="Username">
+    <input id="p" class="input" placeholder="Password" type="password">
+    <button class="btn" style="width:100%;margin-top:12px" onclick="doLogin()">Login</button>
+  </div>
+<script>
+function doLogin(){
+  const u = document.getElementById('u').value.trim();
+  const p = document.getElementById('p').value.trim();
+  if (!u || !p) return alert('enter username and password');
+  sessionStorage.setItem('loggedIn','1');
+  location.href = 'home.html';
+}
+</script>
+</body>
+</html>

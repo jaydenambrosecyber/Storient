@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Add Item</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body>
+  <div class="navbar">
+    <div class="brand" onclick="location.href='home.html'"><img src="assets/img/logo.svg"><div class="title">STORIENT</div></div>
+    <div class="menu">
+      <a href="home.html">Home</a>
+      <a href="add.html">Add Item</a>
+      <a href="stock.html">Stock</a>
+      <a href="outofstock.html">Out of Stock</a>
+      <a href="sales.html">Sales</a>
+      <a href="index.html" style="margin-left:12px">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="form-card" style="max-width:720px;margin:0 auto">
+      <h2>Add New Item</h2>
+      <div style="display:grid;grid-template-columns:1fr 240px;gap:12px;align-items:start;margin-top:12px">
+        <div>
+          <input id="name" class="input" placeholder="Item name" />
+          <input id="price" class="input" type="number" placeholder="Price (₹)" />
+          <input id="quantity" class="input" type="number" placeholder="Quantity" value="1" />
+          <input id="image" class="input" placeholder="Image URL (optional)" />
+          <button class="btn" onclick="saveItem()">Add Item</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+          <div style="width:200px;height:140px;background:rgba(255,255,255,0.03);border-radius:10px;display:flex;align-items:center;justify-content:center">Preview</div>
+          <div class="small">Tip: you can paste an image URL or leave blank for default logo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="assets/js/app.js"></script>
+<script>
+function saveItem(){
+  const name = document.getElementById('name').value.trim();
+  const price = parseFloat(document.getElementById('price').value) || 0;
+  const qty = parseInt(document.getElementById('quantity').value) || 0;
+  const img = document.getElementById('image').value.trim();
+  if (!name) return alert('Enter name');
+  let items = loadItems();
+  items.push({id: Date.now(), name, price, quantity: qty, image: img});
+  saveItems(items);
+  alert('Item added');
+  location.href='stock.html';
+}
+</script>
+</body>
+</html>

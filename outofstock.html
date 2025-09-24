@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Out of Stock</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body>
+  <div class="navbar">
+    <div class="brand" onclick="location.href='home.html'"><img src="assets/img/logo.svg"><div class="title">STORIENT</div></div>
+    <div class="menu">
+      <a href="home.html">Home</a>
+      <a href="add.html">Add Item</a>
+      <a href="stock.html">Stock</a>
+      <a href="outofstock.html">Out of Stock</a>
+      <a href="sales.html">Sales</a>
+      <a href="index.html" style="margin-left:12px">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Out of Stock</h2>
+    <div class="form-card">
+      <table class="table" id="outTable"><thead><tr><th>Item</th><th>Price</th><th>Quantity</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+<script src="assets/js/app.js"></script>
+<script>
+function renderOut(){
+  const tbody = document.querySelector('#outTable tbody');
+  const items = loadItems().filter(i=>Number(i.quantity)===0);
+  if (!items.length){ tbody.innerHTML = '<tr><td colspan=3 class="small">No out of stock items</td></tr>'; return; }
+  tbody.innerHTML = items.map(it=>`<tr><td>${it.name}</td><td>${formatCurr(it.price)}</td><td>${it.quantity}</td></tr>`).join('');
+}
+document.addEventListener('DOMContentLoaded', renderOut);
+</script>
+</body>
+</html>

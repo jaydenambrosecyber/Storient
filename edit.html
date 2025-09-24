@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Edit Item</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body>
+  <div class="navbar">
+    <div class="brand" onclick="location.href='home.html'"><img src="assets/img/logo.svg"><div class="title">STORIENT</div></div>
+    <div class="menu">
+      <a href="home.html">Home</a>
+      <a href="add.html">Add Item</a>
+      <a href="stock.html">Stock</a>
+      <a href="outofstock.html">Out of Stock</a>
+      <a href="sales.html">Sales</a>
+      <a href="index.html" style="margin-left:12px">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="form-card" style="max-width:720px;margin:0 auto">
+      <h2>Edit Item</h2>
+      <div id="content"></div>
+    </div>
+  </div>
+<script src="assets/js/app.js"></script>
+<script>
+function qs(){ return new URLSearchParams(location.search); }
+const id = qs().get('id');
+if (!id) location.href='stock.html';
+const items = loadItems();
+const item = items.find(x=>String(x.id)===String(id));
+if (!item) location.href='stock.html';
+document.getElementById('content').innerHTML = `
+  <input id="name" class="input" value="${item.name}">
+  <input id="price" class="input" type="number" value="${item.price}">
+  <input id="quantity" class="input" type="number" value="${item.quantity}">
+  <input id="image" class="input" value="${item.image||''}">
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button class="btn" onclick="save()">Save</button>
+    <button class="btn" style="background:#ef4444" onclick="confirmDelete(()=>{ remove(); })">Delete</button>
+    <button class="btn" style="background:rgba(255,255,255,0.06)" onclick="location.href='stock.html'">Cancel</button>
+  </div>
+`;
+function save(){ item.name = document.getElementById('name').value; item.price = parseFloat(document.getElementById('price').value)||0; item.quantity = parseInt(document.getElementById('quantity').value)||0; item.image = document.getElementById('image').value; saveItems(items); alert('Saved'); location.href='stock.html'; }
+function remove(){ const idx = items.findIndex(x=>String(x.id)===String(id)); items.splice(idx,1); saveItems(items); alert('Deleted'); location.href='stock.html'; }
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Stock</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body>
+  <div class="navbar">
+    <div class="brand" onclick="location.href='home.html'"><img src="assets/img/logo.svg"><div class="title">STORIENT</div></div>
+    <div class="menu">
+      <a href="home.html">Home</a>
+      <a href="add.html">Add Item</a>
+      <a href="stock.html">Stock</a>
+      <a href="outofstock.html">Out of Stock</a>
+      <a href="sales.html">Sales</a>
+      <a href="index.html" style="margin-left:12px">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Stock</h2>
+    <div class="form-card" style="overflow:auto">
+      <table class="table" id="stockTable">
+        <thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+<script src="assets/js/app.js"></script>
+<script>
+function renderStock(){
+  const tbody = document.querySelector('#stockTable tbody');
+  const items = loadItems();
+  if (!items.length){ tbody.innerHTML = '<tr><td colspan=4 class="small">No items yet</td></tr>'; return; }
+  tbody.innerHTML = items.map((it, idx)=>`
+    <tr>
+      <td><div style="display:flex;gap:10px;align-items:center"><img src="${it.image||'assets/img/logo.svg'}" style="width:48px;height:48px;border-radius:8px"><div><div style="font-weight:700">${it.name}</div><div class="small">id: ${it.id}</div></div></div></td>
+      <td>${formatCurr(it.price)}</td>
+      <td>${it.quantity}</td>
+      <td>
+        <button class="btn" onclick="location.href='edit.html?id=${it.id}'">Edit</button>
+        <button class="btn" style="background:#ef4444" onclick="confirmDelete(()=>{ deleteAt(${idx}); })">Delete</button>
+      </td>
+    </tr>`).join('');
+}
+function deleteAt(i){ let items = loadItems(); items.splice(i,1); saveItems(items); renderStock(); }
+document.addEventListener('DOMContentLoaded', renderStock);
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>STORIENT — Dashboard</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="brand" onclick="location.href='home.html'"><img src="assets/img/logo.svg"><div class="title">STORIENT</div></div>
+    <div class="menu">
+      <a href="home.html">Home</a>
+      <a href="add.html">Add Item</a>
+      <a href="stock.html">Stock</a>
+      <a href="outofstock.html">Out of Stock</a>
+      <a href="sales.html">Sales</a>
+      <a href="index.html" style="margin-left:12px">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero">
+      <div class="left">
+        <h1>STORIENT Dashboard</h1>
+        <p class="small">Manage inventory, record sales, and keep stock healthy — with style.</p>
+        <div class="grid" style="margin-top:18px">
+          <div class="card" onclick="location.href='add.html'"><div class="label">Add Item</div><div class="desc">Add a new product with price, image and quantity.</div></div>
+          <div class="card" onclick="location.href='stock.html'"><div class="label">Stock</div><div class="desc">View & manage current stock levels.</div></div>
+          <div class="card" onclick="location.href='outofstock.html'"><div class="label">Out of Stock</div><div class="desc">Items that need restocking.</div></div>
+          <div class="card" onclick="location.href='sales.html'"><div class="label">Sales</div><div class="desc">Record sales & track revenue.</div></div>
+        </div>
+      </div>
+      <div style="min-width:280px">
+        <img src="assets/img/logo.svg" style="width:220px;opacity:0.95;border-radius:18px;display:block;margin-left:auto">
+      </div>
+    </div>
+  </div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
